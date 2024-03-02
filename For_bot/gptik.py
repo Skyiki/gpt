@@ -129,7 +129,7 @@ def answer_function(call):
     user_id = call.message_id
     result = sql.select_info(user_id)
     user_promt = result['task']
-    answer = user[user_id]['answer']
+    answer = result['answer']
     try:
         #запрос к нейросети
         resp = requests.post(
@@ -164,7 +164,7 @@ def answer_function(call):
             #возвращение к началу
             bot.register_next_step_handler(call, subject)
         else:
-            user[user_id]['answer'] += user[user_id]['result']
+            sql.update_data(user_id, 'answer', f'{result}')
             return
     except:
         logging.error(
