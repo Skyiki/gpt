@@ -157,14 +157,14 @@ def answer_function(call):
         )
         #обработка ошибок
         if resp.status_code == 200 and 'choices' in user[user_id]['resp'].json():
-            result = resp.json()['choices'][0]['message']['content']
+            results = resp.json()['choices'][0]['message']['content']
 
         #создание клавиатуры
         keyboard = types.InlineKeyboardMarkup()
         button_1 = types.InlineKeyboardButton(text='Закончить', callback_data='button1')
         button_2 = types.InlineKeyboardButton(text='Продолжить генерацию', callback_data='button2')
         keyboard.add(button_1, button_2)
-        bot.send_message(call.message.chat.id, text=result, reply_markup=keyboard)
+        bot.send_message(call.message.chat.id, text=results, reply_markup=keyboard)
 
         if call.data != 'button2':
             #удаление ненужного
@@ -173,7 +173,7 @@ def answer_function(call):
             #возвращение к началу
             bot.register_next_step_handler(call, subject)
         else:
-            sql.update_data(user_id, 'answer', f'{result}')
+            sql.update_data(user_id, 'answer', f'{results}')
             return
     except:
         logging.error(
