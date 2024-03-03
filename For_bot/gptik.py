@@ -75,6 +75,7 @@ def level(message):
         bot.send_message(user_id, text='Данные введены некорректно. Нажмите на кнопку клавиатуры.')
         bot.register_next_step_handler_by_chat_id(message, subject)
 
+    global system_content
     system_content[user_id] = (f"Ты - дружелюбный помощник для решения задач по {text}."
                                f" Давай подробный ответ с решением на русском языке")
 
@@ -100,6 +101,7 @@ def solve_task(message):
 
 
     text = message.text
+    global system_content
     system_content[user_id] += f"Объясняй макисмально подробно и понятно для {text}"
     bot.send_message(user_id, text="Введи свой вопрос.")
     bot.register_next_step_handler(message, get_promtss)
