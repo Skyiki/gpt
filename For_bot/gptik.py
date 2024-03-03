@@ -69,8 +69,11 @@ def level(message):
 
     if text == 'Химия':
         sql.update_data(user_id, 'subject', 'химия')
-    else:
+    elif text == 'Физика':
         sql.update_data(user_id, 'subject', 'физика')
+    else:
+        bot.send_message(user_id, text='Данные введены некорректно. Нажмите на кнопку клавиатуры.')
+        bot.register_next_step_handler_by_chat_id(message, subject)
 
     system_content[user_id] = (f"Ты - дружелюбный помощник для решения задач по {text}."
                                f" Давай подробный ответ с решением на русском языке")
@@ -89,8 +92,12 @@ def solve_task(message):
     user_id = message.from_user.id
     if message.text == 'Начинающий':
         sql.update_data(user_id, 'level', 'Начинающий')
-    else:
+    elif message.text == 'Профессионал':
         sql.update_data(user_id, 'level', 'Профессионал')
+    else:
+        bot.send_message(user_id, text='Данные введены некорректно. Нажмите на кнопку клавиатуры.')
+        bot.register_next_step_handler_by_chat_id(message, level)
+
 
     text = message.text
     system_content[user_id] += f"Объясняй макисмально подробно и понятно для {text}"

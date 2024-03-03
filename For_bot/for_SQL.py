@@ -43,7 +43,6 @@ class SQL():
 
         query = f'SELECT * FROM users WHERE user_id = ?'
         cur.execute(query, (user_id, ))
-        con.commit()
         con.close()
 
     #удаление данных пользователя с таблицы
